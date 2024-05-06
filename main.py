@@ -97,8 +97,10 @@ echo_log("Number of Vocab:",str(len(tokenizer.word_index)))
 x_tr,x_val,y_tr,y_val=train_test_split(np.array(df['text']),np.array(df['summary']),test_size=0.1,random_state=0,shuffle=False)
 
 # Using data generator
-train_gen = TextSummaryWordLevelDataGenerator(data_frame=pd.DataFrame({"text": x_tr, "summary": y_tr}), tokenizer=tokenizer, batch_size=1)
-valid_gen = TextSummaryWordLevelDataGenerator(data_frame=pd.DataFrame({"text": x_val, "summary": y_val}), tokenizer=tokenizer, batch_size=1)
+train_gen = TextSummaryWordLevelDataGenerator(data_frame=pd.DataFrame({"text": x_tr, "summary": y_tr}), tokenizer=tokenizer, 
+                                               max_text_len=max_text_len, max_summary_len=max_summary_len, batch_size=60)
+valid_gen = TextSummaryWordLevelDataGenerator(data_frame=pd.DataFrame({"text": x_val, "summary": y_val}), tokenizer=tokenizer,
+                                              max_text_len=max_text_len, max_summary_len=max_summary_len, batch_size=60)
 
 
 
