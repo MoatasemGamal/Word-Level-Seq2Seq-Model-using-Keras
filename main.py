@@ -77,6 +77,15 @@ else:
     #prepare a tokenizer for reviews on training data
     tokenizer = Tokenizer(oov_token='OOV') 
     tokenizer.fit_on_texts(list(df['summary']) + list(df['text']))
+    echo_log("Number of Vocab:",str(len(tokenizer.word_index)))
+    echo_log("Reducing number of vocab...")
+    #reduce words in tokenizer
+    unique_words = ' '.join([word for word in tokenizer.word_index.keys() if word in tokenizer.word_counts.keys() and tokenizer.word_counts[word] >= 8])
+    del tokenizer
+    tokenizer = Tokenizer(oov_token='OOV')
+    tokenizer.fit_on_texts(['sostok', 'eostok']+[unique_words])
+    echo_log("Number of Vocab:",str(len(tokenizer.word_index)))
+
     # Save tokenizer to a JSON file
     tokenizer_json = tokenizer.to_json()
     with open(tokenizer_path, 'w', encoding='utf-8') as f:
