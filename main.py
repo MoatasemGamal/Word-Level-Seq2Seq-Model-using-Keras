@@ -80,7 +80,7 @@ else:
     echo_log("Number of Vocab:",str(len(tokenizer.word_index)))
     echo_log("Reducing number of vocab...")
     #reduce words in tokenizer
-    unique_words = ' '.join([word for word in tokenizer.word_index.keys() if word in tokenizer.word_counts.keys() and tokenizer.word_counts[word] >= 8])
+    unique_words = ' '.join([word for word in tokenizer.word_index.keys() if word in tokenizer.word_counts.keys() and tokenizer.word_counts[word] >= 20])
     del tokenizer
     tokenizer = Tokenizer(oov_token='OOV')
     tokenizer.fit_on_texts(['sostok', 'eostok']+[unique_words])
