@@ -19,6 +19,7 @@ warnings.filterwarnings("ignore")
 #=======================================================================
 max_text_len=512 #word
 max_summary_len=256 #word
+batch_size = 60
 #=======================================================================
 
 #=======================================================================
@@ -98,9 +99,9 @@ x_tr,x_val,y_tr,y_val=train_test_split(np.array(df['text']),np.array(df['summary
 
 # Using data generator
 train_gen = TextSummaryWordLevelDataGenerator(data_frame=pd.DataFrame({"text": x_tr, "summary": y_tr}), tokenizer=tokenizer, 
-                                               max_text_len=max_text_len, max_summary_len=max_summary_len, batch_size=60)
+                                               max_text_len=max_text_len, max_summary_len=max_summary_len, batch_size=batch_size)
 valid_gen = TextSummaryWordLevelDataGenerator(data_frame=pd.DataFrame({"text": x_val, "summary": y_val}), tokenizer=tokenizer,
-                                              max_text_len=max_text_len, max_summary_len=max_summary_len, batch_size=60)
+                                              max_text_len=max_text_len, max_summary_len=max_summary_len, batch_size=batch_size)
 
 
 
