@@ -123,7 +123,7 @@ valid_gen = TextSummaryWordLevelDataGenerator(data_frame=pd.DataFrame({"text": x
 #=======================================================================
 #   Build, Compile, Train Model
 #=======================================================================
-vocab_size = len(tokenizer.word_index) + 1
+vocab_size = len(summary_tokenizer.word_index) + 1
 
 model = Seq2SeqModel(input_vocab_size=vocab_size, output_vocab_size=vocab_size,
                     max_input_length=max_text_len, max_output_length=max_summary_len, latent_dim=300, embedding_dim=100);
