@@ -209,9 +209,15 @@ class DataCleaner:
 #=====================================================================================================
 class TextSummaryWordLevelDataGenerator(tf.keras.utils.Sequence):
 
-    def __init__(self, data_frame, tokenizer, text_column='text', summary_column='summary', max_text_len=512, max_summary_len=256, batch_size=10):
+    def __init__(self, data_frame, tokenizer=None,text_tokenizer=None, summary_tokenizer=None, text_column='text', summary_column='summary', max_text_len=512, max_summary_len=256, batch_size=10):
         self.df = data_frame
         self.tokenizer = tokenizer
+        if tokenizer is None:
+            self.text_tokenizer = text_tokenizer
+            self.summary_tokenizer = summary_tokenizer
+        else:
+            self.text_tokenizer = tokenizer
+            self.summary_tokenizer = tokenizer
         self.text_column = text_column
         self.summary_column = summary_column
         self.max_text_len = max_text_len
@@ -231,8 +237,8 @@ class TextSummaryWordLevelDataGenerator(tf.keras.utils.Sequence):
         target_texts = list(df[self.summary_column])
 
         #convert text sequences into integer sequences & padding zero upto maximum length
-        input_sequences    =   pad_sequences(self.tokenizer.texts_to_sequences(input_texts),  maxlen=self.max_text_len, padding='post')
-        target_sequences   =   pad_sequences(self.tokenizer.texts_to_sequences(target_texts), maxlen=self.max_summary_len, padding='post')
+        input_sequences    =   pad_sequences(self.text_tokenizer.texts_to_sequences(input_texts),  maxlen=self.max_text_len, padding='post')
+        target_sequences   =   pad_sequences(self.summary_tokenizer.texts_to_sequences(target_texts), maxlen=self.max_summary_len, padding='post')
 
         # encoder_inputs= [input_sequences, target_sequences[:,:-1]]
         decoder_inputs = target_sequences.reshape(target_sequences.shape[0],target_sequences.shape[1], 1)[:,1:]
