@@ -106,11 +106,11 @@ class Seq2SeqModel:
         
         return self.m.fit(encoder_inputs, decoder_inputs, epochs=epochs, batch_size=batch_size, **params)
     
-    def fit_using_data_generator(self, train_generator, checkpoints_saving_path=None, epochs=100, validation_generator=None, callbacks=[]):
+    def fit_using_data_generator(self, train_generator, checkpoints_saving_path=None, save_freq=4,epochs=100, validation_generator=None, callbacks=[]):
         if checkpoints_saving_path is not None and os.path.isdir(checkpoints_saving_path):
             # Save checkpoints every epoch
             checkpoint_filepath = checkpoints_saving_path+'/checkpoint-{epoch:02d}.model.keras'
-            model_checkpoint_callback = keras.callbacks.ModelCheckpoint(filepath=checkpoint_filepath, save_freq=4)
+            model_checkpoint_callback = keras.callbacks.ModelCheckpoint(filepath=checkpoint_filepath, save_freq=save_freq)
 
         params = {'callbacks':callbacks}
         if 'model_checkpoint_callback' in locals():
