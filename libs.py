@@ -110,7 +110,7 @@ class Seq2SeqModel:
         if checkpoints_saving_path is not None and os.path.isdir(checkpoints_saving_path):
             # Save checkpoints every epoch
             checkpoint_filepath = checkpoints_saving_path+'/checkpoint-{epoch:02d}.model.keras'
-            model_checkpoint_callback = keras.callbacks.ModelCheckpoint(filepath=checkpoint_filepath, save_freq=save_freq)
+            model_checkpoint_callback = keras.callbacks.ModelCheckpoint(filepath=checkpoint_filepath, save_freq=save_freq,  period='epoch')
 
         params = {'callbacks':callbacks}
         if 'model_checkpoint_callback' in locals():
