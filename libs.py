@@ -15,6 +15,7 @@ from nltk.tokenize.treebank import TreebankWordDetokenizer
 import pyarabic.araby as araby
 from bs4 import BeautifulSoup
 import re
+from nltk.stem.isri import ISRIStemmer
 
 #=====================================================================================================
 #=====================================================================================================
@@ -132,7 +133,7 @@ class DataCleaner:
     def __init__(self):
         pass
     @staticmethod
-    def __clean_text(text, substitutions_regex=[], lang='multi',remove_html_tags=True , remove_stop_words=True, expand_contractions=True, lower=True,replace_hindi_numbers_with_arabic=True, strip_tashkeel=True, strip_tatweel=True, uniform_arabic_characters=False):
+    def __clean_text(text, substitutions_regex=[], lang='multi',remove_html_tags=True , remove_stop_words=True, expand_contractions=True, lower=True,replace_hindi_numbers_with_arabic=True, strip_tashkeel=True, strip_tatweel=True, uniform_arabic_characters=False, stemming=False):
         contraction_mapping = {"ain't": "is not", "aren't": "are not","can't": "cannot", "'cause": "because", "could've": "could have", "couldn't": "could not",
                             "didn't": "did not",  "doesn't": "does not", "don't": "do not", "hadn't": "had not", "hasn't": "has not", "haven't": "have not",
                             "he'd": "he would","he'll": "he will", "he's": "he is", "how'd": "how did", "how'd'y": "how do you", "how'll": "how will", "how's": "how is",
@@ -187,17 +188,20 @@ class DataCleaner:
                     text = re.sub(sub[0],sub[1], text)
                 else:
                     text = re.sub(sub,' ', text)
+        if stemming:
+            st = ISRIStemmer()
+            text = ' '.join([st.stem(w) for w in text.split()])
         return text
 
     @staticmethod
-    def clean(data, substitutions_regex=[], lang='multi', remove_html_tags=True, remove_stop_words=True, expand_contractions=True, lower=True,replace_hindi_numbers_with_arabic=True , strip_tashkeel=True, strip_tatweel=True, uniform_arabic_characters=False):
+    def clean(data, substitutions_regex=[], lang='multi', remove_html_tags=True, remove_stop_words=True, expand_contractions=True, lower=True,replace_hindi_numbers_with_arabic=True , strip_tashkeel=True, strip_tatweel=True, uniform_arabic_characters=False, stemming=False):
         if isinstance(data, str):
-            cleaned_data=DataCleaner.__clean_text(data, substitutions_regex, lang, remove_html_tags, remove_stop_words, expand_contractions, lower,replace_hindi_numbers_with_arabic, strip_tashkeel, strip_tatweel, uniform_arabic_characters)
+            cleaned_data=DataCleaner.__clean_text(data, substitutions_regex, lang, remove_html_tags, remove_stop_words, expand_contractions, lower,replace_hindi_numbers_with_arabic, strip_tashkeel, strip_tatweel, uniform_arabic_characters, stemming)
         else:
             data = np.array(data)
             cleaned_data = []
             for sample in data:
-                cleaned_data.append(DataCleaner.__clean_text(sample, substitutions_regex, lang, remove_html_tags, remove_stop_words, expand_contractions, lower,replace_hindi_numbers_with_arabic, strip_tashkeel, strip_tatweel, uniform_arabic_characters))
+                cleaned_data.append(DataCleaner.__clean_text(sample, substitutions_regex, lang, remove_html_tags, remove_stop_words, expand_contractions, lower,replace_hindi_numbers_with_arabic, strip_tashkeel, strip_tatweel, uniform_arabic_characters, stemming))
         
         return cleaned_data
     
