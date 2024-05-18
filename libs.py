@@ -33,7 +33,7 @@ class Seq2SeqModel:
         self.m = None
     
     def build_model(self):
-        K.clear_session()
+        # K.clear_session()
         latent_dim = self.latent_dim
         embedding_dim=self.embedding_dim
         
