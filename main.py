@@ -17,8 +17,8 @@ pd.set_option("display.max_colwidth", 200)
 warnings.filterwarnings("ignore")
 
 #=======================================================================
-max_text_len=512 #word
-max_summary_len=256 #word
+max_text_len=200 #word
+max_summary_len=50 #word
 batch_size = 60
 #=======================================================================
 

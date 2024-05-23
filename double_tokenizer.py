@@ -17,8 +17,8 @@ pd.set_option("display.max_colwidth", 200)
 warnings.filterwarnings("ignore")
 
 #=======================================================================
-max_text_len=256 #word
-max_summary_len=128 #word
+max_text_len=200 #word
+max_summary_len=50 #word
 batch_size = 60
 #=======================================================================
 
@@ -132,6 +132,6 @@ model.build_model()
 model.compile(optimizer='rmsprop', loss='sparse_categorical_crossentropy')
 
 # model.fit(X_train= x_tr, y_train=y_tr, checkpoints_saving_path='outputs/checkpoints', batch_size=10, validation_data=(x_val, y_val))
-model.fit_using_data_generator(train_generator=train_gen, checkpoints_saving_path='outputs/checkpoints',
+model.fit_using_data_generator(train_generator=train_gen, checkpoints_saving_path='outputs/checkpoints', save_freq=10,
                                 validation_generator=valid_gen)
 model.save('outputs/s2s_model.keras')
